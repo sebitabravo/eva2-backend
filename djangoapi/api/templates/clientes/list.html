@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'mesa_list' %}">Mesas</a></li>
+            <li><a href="{% url 'reserva_list' %}">Reservas</a></li>
+        </ul>
+    </nav>
     <h1>Clientes</h1>
     <a href="{% url 'cliente_create' %}">Nuevo Cliente</a>
     <table border="1">

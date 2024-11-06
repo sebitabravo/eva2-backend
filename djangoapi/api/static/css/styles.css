@@ -1,0 +1,185 @@
+/* static/css/styles.css */
+
+/* Estilo base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fuente global */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo de la barra de navegación */
+nav {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #f4f4f4;
+    text-decoration: underline;
+}
+
+/* Título principal */
+h1 {
+    color: #333;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 2.5em;
+}
+
+/* Parrafo introductorio */
+p {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+/* Estilo de los enlaces de las secciones */
+ul {
+    list-style-type: none;
+    padding: 20px 0;
+    text-align: center;
+}
+
+ul li {
+    display: inline-block;
+    margin: 10px 20px;
+}
+
+ul li a {
+    font-size: 1.2em;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ul li a:hover {
+    background-color: #333;
+    color: white;
+}
+
+/* Botónes" */
+a {
+    display: inline-block;
+    margin: 20px 0;
+    padding: 10px 20px;
+    background-color: #686868;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #26376e;
+}
+
+/* Estilo de la tabla */
+table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table th,
+table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #333;
+    color: white;
+    font-size: 1.1em;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilo de los enlaces en la tabla (Editar, Eliminar) */
+table td a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1em;
+    margin-right: 10px;
+    transition: color 0.3s ease;
+}
+
+table td a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Mensaje cuando no hay clientes */
+table td[colspan="5"] {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+}
+
+/* Estilo para hacer la página más responsiva */
+@media (max-width: 768px) {
+    nav ul li {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    table {
+        font-size: 0.9em;
+    }
+
+    table th, table td {
+        padding: 10px;
+    }
+
+    a {
+        font-size: 1.1em;
+    }
+}

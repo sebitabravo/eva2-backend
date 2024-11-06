@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li><a href="/admin/">Admin</a></li>
+        </ul>
+    </nav>
+
+    <h1>Bienvenido de gestion de reservas</h1>
+    <p>Seleccione una de las opciones para comenzar a administrar clientes, mesas y reservas.</p>
+    
+    <!-- Enlaces a las secciones -->
+    <ul>
+        <li><a href="{% url 'cliente_list' %}">Ver Clientes</a></li>
+        <li><a href="{% url 'mesa_list' %}">Ver Mesas</a></li>
+        <li><a href="{% url 'reserva_list' %}">Ver Reservas</a></li>
+    </ul>
+</body>
+</html>
