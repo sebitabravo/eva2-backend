@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Eliminar Reserva</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Eliminar Reserva</h1>
+    <p>¿Estás seguro de que deseas eliminar la reserva de "{{ object.cliente.nombre }}" para la mesa "{{ object.mesa.numero_mesa }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Eliminar</button>
+        <a href="{% url 'reserva_list' %}">Cancelar</a>
+    </form>
+</body>
+</html>

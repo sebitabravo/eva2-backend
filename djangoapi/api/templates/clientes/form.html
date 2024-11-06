@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>{% if form.instance.pk %}Editar Cliente{% else %}Nuevo Cliente{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>{% if form.instance.pk %}Editar Cliente{% else %}Nuevo Cliente{% endif %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="{% url 'cliente_list' %}">Volver a la Lista</a>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Lista de Mesas</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Mesas</h1>
+    <a href="{% url 'mesa_create' %}">Nueva Mesa</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Número de Mesa</th>
+                <th>Capacidad</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mesa in mesas %}
+                <tr>
+                    <td>{{ mesa.numero_mesa }}</td>
+                    <td>{{ mesa.capacidad }}</td>
+                    <td>{{ mesa.usuario.username }}</td>
+                    <td>
+                        <a href="{% url 'mesa_update' mesa.pk %}">Editar</a> |
+                        <a href="{% url 'mesa_delete' mesa.pk %}">Eliminar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No hay mesas registradas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

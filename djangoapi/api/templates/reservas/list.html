@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Lista de Reservas</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Reservas</h1>
+    <a href="{% url 'reserva_create' %}">Nueva Reserva</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Cliente</th>
+                <th>Mesa</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+                <tr>
+                    <td>{{ reserva.fecha }}</td>
+                    <td>{{ reserva.hora }}</td>
+                    <td>{{ reserva.cliente.nombre }}</td>
+                    <td>{{ reserva.mesa.numero_mesa }}</td>
+                    <td>{{ reserva.cliente.usuario.username }}</td>
+                    <td>
+                        <a href="{% url 'reserva_update' reserva.pk %}">Editar</a> |
+                        <a href="{% url 'reserva_delete' reserva.pk %}">Eliminar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No hay reservas registradas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
