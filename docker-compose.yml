@@ -70,6 +70,7 @@ services:
         condition: service_healthy
     networks:
       - reservas_network
+      - dokploy-network
     restart: unless-stopped
     deploy:
       resources:
@@ -93,3 +94,5 @@ volumes:
 networks:
   reservas_network:
     driver: bridge
+  dokploy-network:
+    external: true
