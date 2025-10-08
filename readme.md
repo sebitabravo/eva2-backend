@@ -52,16 +52,16 @@ POST /api/token/          # Obtener JWT | POST /api/token/refresh/  # Refresh
 
 | Endpoint | GET (Público) | POST/PUT/DELETE (Admin) | Límite |
 |----------|---------------|-------------------------|--------|
-| `/api/v1/clientes/` | Listar | Crear/Editar/Eliminar | 100/20/hora |
-| `/api/v1/mesas/` | Listar | Crear/Editar/Eliminar | 100/20/hora |
-| `/api/v1/reservas/` | Listar | Crear/Editar/Eliminar | 100/20/hora |
+| `/api/clientes/` | Listar | Crear/Editar/Eliminar | 100/20/hora |
+| `/api/mesas/` | Listar | Crear/Editar/Eliminar | 100/20/hora |
+| `/api/reservas/` | Listar | Crear/Editar/Eliminar | 100/20/hora |
 
 ### Estadísticas (Autenticado - 10 req/hora)
 
 ```bash
-GET /api/v1/reservas/estadisticas/       # Métricas generales del sistema
-GET /api/v1/clientes/{id}/estadisticas/  # Historial de reservas por cliente
-GET /api/v1/mesas/{id}/estadisticas/     # Ocupación y popularidad de mesa
+GET /api/reservas/estadisticas/       # Métricas generales del sistema
+GET /api/clientes/{id}/estadisticas/  # Historial de reservas por cliente
+GET /api/mesas/{id}/estadisticas/     # Ocupación y popularidad de mesa
 ```
 
 **Métricas**: Total de reservas, distribución por estado, tendencias temporales, top 5 mesas/clientes/horarios, tasas de cancelación, promedios.
@@ -69,7 +69,8 @@ GET /api/v1/mesas/{id}/estadisticas/     # Ocupación y popularidad de mesa
 ### Documentación
 
 ```yaml
-http://localhost:8000/api/docs/    # Swagger UI | http://localhost:8000/api/schema/  # OpenAPI
+http://localhost:8000/swagger/    # Swagger UI
+http://localhost:8000/redoc/      # Redoc
 ```
 
 ## Configuración (.env)
@@ -155,15 +156,6 @@ eva2-backend/
 ├── monitor-resources.sh    # Monitoreo
 └── requirements.txt
 ```
-
-## Documentación Adicional
-
-- [DOKPLOY.md](DOKPLOY.md) - **Guía para Dokploy** (solución de problemas de despliegue)
-- [NUEVAS_FUNCIONALIDADES.md](NUEVAS_FUNCIONALIDADES.md) - Estadísticas, clean(), monitoreo
-- [PRODUCTION_GUIDE.md](PRODUCTION_GUIDE.md) - Deployment completo
-- [RATE_LIMITING.md](RATE_LIMITING.md) - Throttling
-- [COMPARACION_EVA1_VS_EVA2.md](COMPARACION_EVA1_VS_EVA2.md) - Evolución
-- [DOCKER_TEST_RESULTS.md](DOCKER_TEST_RESULTS.md) - Tests
 
 ## Autor
 
