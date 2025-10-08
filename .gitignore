@@ -58,6 +58,3 @@ docker-compose.override.yml
 *.pem
 *.key
 *.crt
-
-# IA
-GEMINI.md

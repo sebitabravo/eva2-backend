@@ -70,9 +70,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': config('PAGE_SIZE', default=20, cast=int),
     'MAX_PAGE_SIZE': config('MAX_PAGE_SIZE', default=100, cast=int),
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
-    'DEFAULT_VERSION': 'v1',
-    'ALLOWED_VERSIONS': ['v1'],
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+    # 'DEFAULT_VERSION': 'v1',
+    # 'ALLOWED_VERSIONS': ['v1'],
 }
 
 from datetime import timedelta
@@ -244,6 +244,10 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_REFERRER_POLICY = 'same-origin'
+    
+    # IMPORTANTE: Configuración para proxies inversos como Dokploy
+    # Esto permite que Django confíe en las cabeceras X-Forwarded-Proto del proxy
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     # HTTPS Settings (only if ENABLE_HTTPS is True)
     if ENABLE_HTTPS:
@@ -253,4 +257,3 @@ if not DEBUG:
         SECURE_HSTS_SECONDS = 31536000
         SECURE_HSTS_INCLUDE_SUBDOMAINS = True
         SECURE_HSTS_PRELOAD = True
-        SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

@@ -80,13 +80,13 @@ SECRET_KEY=genera-con-get-random-secret-key
 DEBUG=False
 ALLOWED_HOSTS=tu-dominio.com,localhost
 
+# HTTPS Configuration - IMPORTANTE para proxies como Dokploy
+ENABLE_HTTPS=False  # Mantener False si usas proxy inverso (Dokploy, Nginx, etc.)
+                    # El proxy maneja HTTPS, no Django directamente
+
 # Database
-DB_ENGINE=django.db.backends.postgresql
-DB_NAME=reservas_db
-DB_USER=postgres
-DB_PASSWORD=tu-password-seguro
-DB_HOST=db
-DB_PORT=5432
+DATABASE_URL=postgresql://user:password@host:5432/dbname
+DATABASE_PORT=5432
 
 # JWT (minutos)
 JWT_ACCESS_TOKEN_LIFETIME=60
@@ -100,8 +100,14 @@ THROTTLE_WRITE_RATE=20/hour      # POST/PUT/DELETE
 THROTTLE_STATS_RATE=10/hour      # Estadísticas (costoso)
 THROTTLE_BURST_RATE=30/min       # Anti-ráfagas
 
-# CORS
+# CORS & CSRF
 CORS_ALLOWED_ORIGINS=https://tu-frontend.com
+CSRF_TRUSTED_ORIGINS=https://api-reserva.sbravo.app
+
+# Gunicorn
+GUNICORN_WORKERS=2
+GUNICORN_THREADS=2
+GUNICORN_TIMEOUT=120
 ```
 
 ## Validaciones
