@@ -7,7 +7,7 @@ echo "================================================"
 
 # Esperar a que la base de datos esté lista
 echo "Esperando a que PostgreSQL esté disponible..."
-while ! nc -z $DATABASE_HOST $DATABASE_PORT; do
+while ! nc -z $DATABASE_HOST 5432; do
   sleep 0.1
 done
 echo "✓ PostgreSQL está listo"
