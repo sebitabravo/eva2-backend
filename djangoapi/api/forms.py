@@ -29,6 +29,9 @@ class ReservaForm(forms.ModelForm):
         label="Mesa"
     )
 
-    class Meta:
-        model = reserva
-        fields = ['fecha', 'hora', 'cliente', 'mesa']
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ReservaForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['cliente'].queryset = cliente.objects.filter(usuario=user)
+            self.fields['mesa'].queryset = mesa.objects.filter(usuario=user)
