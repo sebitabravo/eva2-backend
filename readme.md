@@ -1,73 +1,163 @@
-# Django Reserva API
+# Django Reserva API - Sistema de Gestión de Reservas
 
-Este proyecto es una API de reservas desarrollada con Django y Django REST Framework. La aplicación permite gestionar **clientes**, **mesas** y **reservas** mediante una API y una interfaz CRUD HTML.
+[![Django](https://img.shields.io/badge/Django-5.1.3-green.svg)](https://www.djangoproject.com/)
+[![DRF](https://img.shields.io/badge/DRF-3.15.2-red.svg)](https://www.django-rest-framework.org/)
+[![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
 
-## Tabla de Contenidos
+API REST profesional para gestión de reservas de restaurantes. Incluye autenticación JWT, rate limiting, estadísticas avanzadas, validaciones robustas y configuración lista para producción.
 
-- [Requisitos](#requisitos)
-- [Instalación](#instalación)
-- [Uso](#uso)
-- [Rutas Disponibles](#rutas-disponibles)
+## Características Principales
 
-## Requisitos
+- **API Pública de Lectura**: GET sin autenticación (100 req/hora) | **Escritura Protegida**: Admin only (20 req/hora)
+- **Multi-Usuario**: Cada usuario gestiona sus propios recursos | **Estadísticas Avanzadas**: Análisis y métricas de negocio
+- **Validación Robusta**: Método `clean()` en modelos | **JWT Auth**: Access + Refresh tokens
+- **Rate Limiting**: Protección anti-DDoS diferenciado | **Swagger/OpenAPI**: Documentación interactiva
+- **Docker Ready**: PostgreSQL + Gunicorn | **Monitoreo**: Script de análisis de recursos
 
-- Python 3.12
-- Django 5.1.3
-- Django REST Framework 3.15.2
-- SQLite (o cualquier base de datos compatible configurada en `settings.py`)
+## Stack Tecnológico
 
-## Instalación
+**Backend**: Django 5.1.3 + DRF 3.15.2 | **DB**: PostgreSQL 16 | **Auth**: JWT | **Server**: Gunicorn | **Docs**: drf-spectacular
 
-1. Clona el repositorio en tu máquina local:
+## Quick Start
+
+### Desarrollo Local
+
 ```bash
-git clone https://github.com/sebitabravo/eva2-backend.git
-cd eva2-backend
+git clone https://github.com/sebitabravo/eva2-backend.git && cd eva2-backend
+python3 -m venv djangoenv && source djangoenv/bin/activate
+pip install -r requirements.txt && cd djangoapi
+python manage.py migrate && python manage.py createsuperuser
+python manage.py runserver 0.0.0.0:8000
 ```
-2. Crear y activar un entorno virtual para el proyecto:
+
+### Producción con Docker
+
 ```bash
-source djangoenv/bin/activate
+cp .env.example .env  # Editar: SECRET_KEY, DB_PASSWORD, ALLOWED_HOSTS
+docker-compose up -d --build
+docker-compose exec web python manage.py createsuperuser
 ```
 
-3. Instalar las dependencias necesarias
+## API Endpoints
+
+### Autenticación
+
 ```bash
-pip install -r requirements.txt
+POST /api/token/          # Obtener JWT | POST /api/token/refresh/  # Refresh
 ```
 
-4. Iniciar el servidor de desarrollo de Django, ejecuta:
+### CRUD Principal
+
+| Endpoint | GET (Público) | POST/PUT/DELETE (Admin) | Límite |
+|----------|---------------|-------------------------|--------|
+| `/api/v1/clientes/` | Listar | Crear/Editar/Eliminar | 100/20/hora |
+| `/api/v1/mesas/` | Listar | Crear/Editar/Eliminar | 100/20/hora |
+| `/api/v1/reservas/` | Listar | Crear/Editar/Eliminar | 100/20/hora |
+
+### Estadísticas (Autenticado - 10 req/hora)
+
 ```bash
-python3 manage.py runserver 0.0.0.0:8000
+GET /api/v1/reservas/estadisticas/       # Métricas generales del sistema
+GET /api/v1/clientes/{id}/estadisticas/  # Historial de reservas por cliente
+GET /api/v1/mesas/{id}/estadisticas/     # Ocupación y popularidad de mesa
 ```
-- El servidor estará disponible en http://localhost:8000 o en tu IP de red local.
 
-## Uso
-### Interfaz CRUD
-Puedes acceder a la interfaz de usuario HTML para gestionar clientes, mesas y reservas. Accede a las siguientes URLs en tu navegador:
-- **Clientes**: [http://localhost:8000/clientes/](http://localhost:8000/clientes/)
-- **Mesas**: [http://localhost:8000/mesas/](http://localhost:8000/mesas/)
-- **Reservas**: [http://localhost:8000/reservas/](http://localhost:8000/reservas/)
+**Métricas**: Total de reservas, distribución por estado, tendencias temporales, top 5 mesas/clientes/horarios, tasas de cancelación, promedios.
 
+### Documentación
 
-### API REST
-Para realizar solicitudes a la API REST, puedes usar una herramienta como Postman o cURL.
-- **Clientes**:
-  - **Listar y Crear**: `GET/POST` [http://localhost:8000/api/clientes/](http://localhost:8000/api/clientes/)
-  - **Detalle, Actualizar, Eliminar**: `GET/PUT/DELETE` [http://localhost:8000/api/clientes/<id>/](http://localhost:8000/api/clientes/<id>/)
+```yaml
+http://localhost:8000/api/docs/    # Swagger UI | http://localhost:8000/api/schema/  # OpenAPI
+```
 
-- **Mesas**:
-  - **Listar y Crear**: `GET/POST` [http://localhost:8000/api/mesas/](http://localhost:8000/api/mesas/)
-  - **Detalle, Actualizar, Eliminar**: `GET/PUT/DELETE` [http://localhost:8000/api/mesas/<id>/](http://localhost:8000/api/mesas/<id>/)
+## Configuración (.env)
 
-- **Reservas**:
-  - **Listar y Crear**: `GET/POST` [http://localhost:8000/api/reservas/](http://localhost:8000/api/reservas/)
-  - **Detalle, Actualizar, Eliminar**: `GET/PUT/DELETE` [http://localhost:8000/api/reservas/<id>/](http://localhost:8000/api/reservas/<id>/)
+```bash
+# Core
+SECRET_KEY=genera-con-get-random-secret-key
+DEBUG=False
+ALLOWED_HOSTS=tu-dominio.com,localhost
 
-## Rutas Disponibles
-- **clientes/**: Listar, crear, actualizar y eliminar clientes.
-- **mesas/**: Listar, crear, actualizar y eliminar mesas.
-- **reservas/**: Listar, crear, actualizar y eliminar reservas.
-- **api/clientes/**: Endpoints de la API REST para gestionar clientes.
-- **api/mesas/**: Endpoints de la API REST para gestionar mesas.
-- **api/reservas/**: Endpoints de la API REST para gestionar reservas.
+# Database
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=reservas_db
+DB_USER=postgres
+DB_PASSWORD=tu-password-seguro
+DB_HOST=db
+DB_PORT=5432
 
-## Contribución
-Si deseas contribuir, por favor realiza un fork del repositorio y crea un pull request con tus cambios. Cualquier sugerencia es bienvenida.
+# JWT (minutos)
+JWT_ACCESS_TOKEN_LIFETIME=60
+JWT_REFRESH_TOKEN_LIFETIME=1440
+
+# Rate Limiting
+THROTTLE_ANON_RATE=100/hour      # Lectura pública
+THROTTLE_USER_RATE=1000/hour     # Usuario autenticado
+THROTTLE_READ_RATE=100/hour      # GET
+THROTTLE_WRITE_RATE=20/hour      # POST/PUT/DELETE
+THROTTLE_STATS_RATE=10/hour      # Estadísticas (costoso)
+THROTTLE_BURST_RATE=30/min       # Anti-ráfagas
+
+# CORS
+CORS_ALLOWED_ORIGINS=https://tu-frontend.com
+```
+
+## Validaciones
+
+**Clientes**: Email único/válido, teléfono chileno (+56912345678), nombre 2+ chars
+**Mesas**: Número único/positivo, capacidad 1-20, validación `clean()`
+**Reservas**: Fecha no pasada (max 90 días), horario 12:00-23:00 cada 30min, disponibilidad de mesa, estados (pendiente/confirmada/cancelada/completada), validación `clean()`
+
+## Comandos Útiles
+
+```bash
+# Monitoreo
+./monitor-resources.sh              # Estado | watch: continuo (5s) | alerts: alertas
+
+# Docker
+docker-compose logs -f web                                              # Logs
+docker-compose exec web python manage.py migrate                       # Migrar
+docker-compose exec db pg_dump -U postgres reservas_db > backup.sql   # Backup
+
+# Generar SECRET_KEY
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+## Seguridad
+
+- JWT con refresh tokens | Rate limiting diferenciado | CORS configurado | HTTPS redirect
+- Secure cookies + XSS/CSRF protection | Secrets via .env | DEBUG=False en prod | Multi-usuario con ownership
+
+## Recursos (512MB RAM / 1 CPU)
+
+```yaml
+web:  256MB RAM, 0.5 CPU, Gunicorn (1 worker + 4 threads)
+db:   256MB RAM, 0.5 CPU, PostgreSQL (max_connections=20, shared_buffers=64MB)
+```
+
+## Estructura
+
+```yaml
+eva2-backend/
+├── djangoapi/api/          # models.py, views.py, serializers.py, permissions.py, throttling.py, tests/
+├── djangoapi/drf/          # settings.py, urls.py
+├── Dockerfile              # Multi-stage build
+├── docker-compose.yml      # PostgreSQL + Django
+├── gunicorn.conf.py        # Producción
+├── monitor-resources.sh    # Monitoreo
+└── requirements.txt
+```
+
+## Documentación Adicional
+
+- [NUEVAS_FUNCIONALIDADES.md](NUEVAS_FUNCIONALIDADES.md) - Estadísticas, clean(), monitoreo
+- [PRODUCTION_GUIDE.md](PRODUCTION_GUIDE.md) - Deployment completo
+- [RATE_LIMITING.md](RATE_LIMITING.md) - Throttling
+- [COMPARACION_EVA1_VS_EVA2.md](COMPARACION_EVA1_VS_EVA2.md) - Evolución
+- [DOCKER_TEST_RESULTS.md](DOCKER_TEST_RESULTS.md) - Tests
+
+## Autor
+
+Sebastian Bravo - [GitHub](https://github.com/sebitabravo)
