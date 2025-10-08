@@ -152,6 +152,7 @@ eva2-backend/
 
 ## Documentación Adicional
 
+- [DOKPLOY.md](DOKPLOY.md) - **Guía para Dokploy** (solución de problemas de despliegue)
 - [NUEVAS_FUNCIONALIDADES.md](NUEVAS_FUNCIONALIDADES.md) - Estadísticas, clean(), monitoreo
 - [PRODUCTION_GUIDE.md](PRODUCTION_GUIDE.md) - Deployment completo
 - [RATE_LIMITING.md](RATE_LIMITING.md) - Throttling

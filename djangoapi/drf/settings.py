@@ -124,11 +124,17 @@ WSGI_APPLICATION = 'drf.wsgi.application'
 
 import dj_database_url
 
+# Parse DATABASE_URL con dj_database_url
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL', default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'))
     )
 }
+
+# IMPORTANTE: Forzar el puerto a 5432 si está usando PostgreSQL
+# Esto previene que variables de entorno externas (como las de Dokploy) sobrescriban el puerto
+if DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
+    DATABASES['default']['PORT'] = config('DATABASE_PORT', default='5432')
 
 
 # Password validation
