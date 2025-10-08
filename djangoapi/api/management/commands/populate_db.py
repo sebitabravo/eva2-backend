@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.db import transaction
 from django.utils import timezone
 from datetime import timedelta
-from api.models import cliente, mesa, reserva
+from api.models import Cliente, Mesa, Reserva
 import random
 
 
@@ -25,13 +25,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options['clear']:
             self.stdout.write(self.style.WARNING('Eliminando datos existentes...'))
-            reserva.objects.all().delete()
-            mesa.objects.all().delete()
-            cliente.objects.all().delete()
+            Reserva.objects.all().delete()
+            Mesa.objects.all().delete()
+            Cliente.objects.all().delete()
             self.stdout.write(self.style.SUCCESS('✓ Datos eliminados'))
 
         # Verificar si ya existen datos
-        if cliente.objects.exists() or mesa.objects.exists() or reserva.objects.exists():
+        if Cliente.objects.exists() or Mesa.objects.exists() or Reserva.objects.exists():
             self.stdout.write(self.style.WARNING(
                 'La base de datos ya contiene datos. Use --clear para eliminarlos primero.'
             ))
@@ -67,7 +67,7 @@ class Command(BaseCommand):
 
             clientes_list = []
             for data in clientes_data:
-                c = cliente.objects.create(usuario=user, **data)
+                c = Cliente.objects.create(usuario=user, **data)
                 clientes_list.append(c)
 
             self.stdout.write(self.style.SUCCESS(f'✓ {len(clientes_list)} clientes creados'))
@@ -88,7 +88,7 @@ class Command(BaseCommand):
 
             mesas_list = []
             for data in mesas_data:
-                m = mesa.objects.create(usuario=user, **data)
+                m = Mesa.objects.create(usuario=user, **data)
                 mesas_list.append(m)
 
             self.stdout.write(self.style.SUCCESS(f'✓ {len(mesas_list)} mesas creadas'))
@@ -120,12 +120,12 @@ class Command(BaseCommand):
                     hora_obj = timezone.datetime.strptime(hora_str, '%H:%M').time()
 
                     # Verificar que no exista conflicto
-                    if not reserva.objects.filter(
+                    if not Reserva.objects.filter(
                         fecha=fecha,
                         hora=hora_obj,
                         mesa=mesa_obj
                     ).exists():
-                        reserva.objects.create(
+                        Reserva.objects.create(
                             usuario=user,
                             fecha=fecha,
                             hora=hora_obj,
