@@ -25,8 +25,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
-    ports:
-      - "${DATABASE_PORT:-5432}:5432"
+    # Puerto NO expuesto externamente - solo accesible entre contenedores en la misma red
+    # Esto previene conflictos con otros servicios PostgreSQL en el servidor
+    expose:
+      - "5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d ${DATABASE_NAME:-reservas_db}"]
       interval: 10s
